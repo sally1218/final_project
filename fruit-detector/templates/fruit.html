@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>水果辨識</title>
+</head>
+<body>
+  <h2>請上傳水果圖片</h2>
+  <input type="file" id="imageInput">
+  <button onclick="uploadImage()">辨識</button>
+  <p id="result"></p>
+
+  <script>
+    async function uploadImage() {
+      const input = document.getElementById("imageInput");
+      const file = input.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+      document.getElementById("result").textContent = "辨識結果：" + data.prediction;
+    }
+  </script>
+</body>
+</html>
